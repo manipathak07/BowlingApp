@@ -25,6 +25,7 @@ namespace BowlingApp.Controllers
 
 
         [HttpPost("play")]
+        [Produces("application/xml", "application/json")]
         public IActionResult Play([FromBody] RollInputModel input)
         {
             if (input == null || input.Rolls == null || input.Rolls.Length != 21)
