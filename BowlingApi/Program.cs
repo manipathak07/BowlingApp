@@ -1,4 +1,5 @@
 using BowlingApp.Domain.Interfaces;
+using BowlingApp.Middlewares;
 using BowlingApp.Service;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,6 +20,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+//app.UseMiddleware<IPWhitelistingMiddleware>(); // Un comment this line and add the whitelisted IP address in IPWhitelistingMiddleware,cs 
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
