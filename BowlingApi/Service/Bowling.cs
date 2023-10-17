@@ -27,23 +27,30 @@ namespace BowlingApp.Service
                 int totalScore = 0;
                 int rollIndex = 0;
 
-                for (int frame = 0; frame < 10; frame++)
+                for (int frame = 0; frame < 9; frame++)
                 {
-                    if (IsStrike(rollIndex) && rollIndex < rolls.Count - 2)
+                    if (IsStrike(rollIndex))
                     {
                         totalScore += 10 + GetStrikeBonus(rollIndex);
-                        rollIndex++;
+                        rollIndex += 2;
                     }
-                    else if (IsSpare(rollIndex) && rollIndex < rolls.Count - 1)
+                    else if (IsSpare(rollIndex))
                     {
                         totalScore += 10 + GetSpareBonus(rollIndex);
                         rollIndex += 2;
                     }
-                    else if (rollIndex < rolls.Count - 1)
+                    else
                     {
                         totalScore += GetFrameScore(rollIndex);
                         rollIndex += 2;
                     }
+                }
+
+                // Handle the last frame
+                while (rollIndex < rolls.Count)
+                {
+                    totalScore += rolls[rollIndex];
+                    rollIndex++;
                 }
 
                 return totalScore;
@@ -53,6 +60,8 @@ namespace BowlingApp.Service
                 throw;
             }
         }
+
+
         private bool IsStrike(int rollIndex)
         {
             if (rollIndex < 0 || rollIndex >= rolls.Count)
@@ -69,7 +78,7 @@ namespace BowlingApp.Service
 
         private int GetStrikeBonus(int rollIndex)
         {
-            return rolls[rollIndex + 1] + rolls[rollIndex + 2];
+            return rolls[rollIndex + 2] + rolls[rollIndex + 3];
         }
 
         private int GetSpareBonus(int rollIndex)

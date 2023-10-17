@@ -20,7 +20,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BowlingApi\BowlingApp.csproj" />
-    <ProjectReference Include="..\BowlingApp.csproj" />
   </ItemGroup>
 
 </Project>

@@ -18,14 +18,9 @@ namespace BowlingApp.Controllers
             _game = game ?? throw new ArgumentNullException(nameof(game));
         }
 
-
-
-    
-
-
-
         [HttpPost("play")]
         [Produces("application/xml", "application/json")]
+        [Consumes("application/json")]
         public IActionResult Play([FromBody] RollInputModel input)
         {
             if (input == null || input.Rolls == null || input.Rolls.Length != 21)
