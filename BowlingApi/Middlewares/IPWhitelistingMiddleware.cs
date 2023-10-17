@@ -3,7 +3,7 @@
     public class IPWhitelistingMiddleware : IMiddleware
     {
       
-        private readonly RequestDelegate _next { get; set; };
+        private  RequestDelegate _next { get; set; }
 
         public IPWhitelistingMiddleware(RequestDelegate next)
         {
