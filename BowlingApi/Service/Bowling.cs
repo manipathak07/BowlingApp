@@ -46,7 +46,7 @@ namespace BowlingApp.Service
                     }
                 }
 
-                // Handle the last frame
+              // handled the last frame so that it will not send the the range out of bound
                 while (rollIndex < rolls.Count)
                 {
                     totalScore += rolls[rollIndex];
