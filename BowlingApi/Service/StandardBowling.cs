@@ -1,14 +1,17 @@
 ﻿using BowlingApp.Domain.Interfaces;
+using BowlingApp.Domain.Models;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Xml.Linq;
 
 namespace BowlingApp.Service
 {
-    public class Bowling: IBowlingGame
+    public class StandardBowling: IBowlingGame
     {
         private List<int> rolls; // Instance member to maintain state within a single request
 
-        public Bowling()
+        public StandardBowling()
         {
             // Initialize the rolls list when a new instance is created for a request
             rolls = new List<int>();
@@ -89,7 +92,8 @@ namespace BowlingApp.Service
         private int GetFrameScore(int rollIndex)
         {
             return rolls[rollIndex] + rolls[rollIndex + 1];
-        }
+        }     
+
     }
 
 }

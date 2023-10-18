@@ -7,7 +7,8 @@ using System.IO.Compression;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddScoped<IBowlingGame, Bowling>();
+builder.Services.AddScoped<IBowlingGameFactory, StandardBowlingGameFactory>();
+builder.Services.AddScoped<IBowlingGame, StandardBowling>();
 builder.Services.AddControllers().AddXmlSerializerFormatters();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

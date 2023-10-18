@@ -11,9 +11,9 @@ namespace BowlingApp.Controllers
     [ApiController]
     public class BowlingController : ControllerBase
     {
-        private readonly IBowlingGame _game;
+        private readonly IBowlingGameFactory _game;
 
-        public BowlingController(IBowlingGame game)
+        public BowlingController(IBowlingGameFactory game)
         {
             _game = game ?? throw new ArgumentNullException(nameof(game));
         }
@@ -23,20 +23,28 @@ namespace BowlingApp.Controllers
         [Consumes("application/json")]
         public IActionResult Play([FromBody] RollInputModel input)
         {
+
+            bool useTwelvePins = input.UseTwelvePins;
             if (input == null || input.Rolls == null || input.Rolls.Length != 21)
             {
                 return BadRequest("Invalid input. Please provide an array of 21 integers.");
             }
 
-            if (input.Rolls.Any(pins => pins < 0 || pins > 10))
+            if (!useTwelvePins && input.Rolls.Any(pins => pins < 0 || pins > 10))
             {
                 return BadRequest("Invalid number of pins.");
             }
-
+            else if (useTwelvePins && input.Rolls.Any(pins => pins < 0 || pins > 12))
+            {
+                return BadRequest("Invalid number of pins.");
+            }
+            //Factory Implementation
+            //Creating the instance of subclasses at runtime .
+            IBowlingGame game = useTwelvePins ? _game.CreateTwelvePinBowlingGame() : _game.CreateStandardBowlingGame();
             // Add rolls
             foreach (var pins in input.Rolls)
             {
-                _game.Roll(pins);
+                game.Roll(pins);
             }
 
             // Check if the request also wants to retrieve the score
@@ -44,7 +52,7 @@ namespace BowlingApp.Controllers
             {
                 try
                 {
-                    int totalScore = _game.GetTotalScore();
+                    int totalScore = game.GetTotalScore();
                     return Ok(totalScore);
                 }
                 catch (Exception ex)
@@ -56,9 +64,9 @@ namespace BowlingApp.Controllers
 
             // If not retrieving the score immediately, return a success response
             return Ok();
+       
         }
 
-
-
+  
     }
 }
